@@ -9,7 +9,7 @@ public class SurvivalistAnimator : MonoBehaviour
 
     private void Awake()
     {
-        survivalist = GetComponent<Survivalist>();
+        survivalist = GetComponentInParent<Survivalist>();
         animator = GetComponent<Animator>();
     }
 
