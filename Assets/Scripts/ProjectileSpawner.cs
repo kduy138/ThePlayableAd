@@ -21,7 +21,7 @@ public class ProjectileSpawner : MonoBehaviour
         if (spawnTimer > spawnTimerMax )
         {
             spawnTimer = 0f;
-            Instantiate(projectilePrefab, spawnPoint.position, Quaternion.identity);
+            ObjectPoolManager.SpawnObject(projectilePrefab.gameObject, spawnPoint.position, Quaternion.identity, ObjectPoolManager.PoolType.Bullets);
         }
     }
 }

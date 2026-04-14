@@ -14,7 +14,7 @@ public class ProjectileBehavior : MonoBehaviour
         if (projectileLifeTimer > projectileLifeTimerMax)
         {
             projectileLifeTimer = 0f;
-            DestroySelf();
+            ObjectPoolManager.ReturnObjectToPool(transform.gameObject);
         }
     }
 
@@ -27,10 +27,5 @@ public class ProjectileBehavior : MonoBehaviour
 
         float moveDistance = projectileSpeed * Time.deltaTime;
         transform.position += moveDistance * moveDir;
-    }
-
-    private void DestroySelf()
-    {
-        Destroy(gameObject);
     }
 }

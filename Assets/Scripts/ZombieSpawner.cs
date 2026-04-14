@@ -1,12 +1,14 @@
+using Unity.Burst;
 using UnityEngine;
 
+[BurstCompile]
 public class ZombieSpawner : MonoBehaviour
 {
     [SerializeField]
     private Transform zombiePrefab;
 
     private float spawnTimer;
-    private float spawnTimerMax = 1f;
+    private float spawnTimerMax = 1.5f;
 
     private void Update()
     {
@@ -19,7 +21,8 @@ public class ZombieSpawner : MonoBehaviour
         if (spawnTimer > spawnTimerMax)
         {
             spawnTimer = 0f;
-            Instantiate(zombiePrefab, transform.position, Quaternion.identity);
+
+            ObjectPoolManager.SpawnObject(zombiePrefab.gameObject, transform.position, Quaternion.identity, ObjectPoolManager.PoolType.Zombies);
         }
     }
 }
