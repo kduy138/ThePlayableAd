@@ -1,45 +1,47 @@
 using Unity.Burst;
 using UnityEngine;
 
-[BurstCompile]
 public class Zombie : MonoBehaviour
 {
+    [Header("References")]
     private Survivalist survivalistGroup;
+
+    [Header("Settings")]
     private float moveSpeed = 6f;
     private float rotateSpeed = 10f;
-
-    private float disableDistance = 70f;
-    private Collider collider;
+    [SerializeField]
+    private float maxHP = 100f;
+    private float currentHP;
 
     private void Awake()
     {
         survivalistGroup = FindAnyObjectByType<Survivalist>();
-        collider = GetComponent<Collider>();
+        currentHP = maxHP;
     }
 
-    [BurstCompile]
     private void Start()
     {
         SetTarget(survivalistGroup);
     }
 
-    [BurstCompile]
-    private void Update()
+    public void CustomUpdate()
     {
-        HandleMovement();
-
         if (survivalistGroup == null) return;
-
-        float distance = Vector3.Distance(transform.position, survivalistGroup.transform.position);
-
-        collider.enabled = distance < disableDistance;
+        HandleMovement();
     }
 
-    [BurstCompile]
+    private void OnEnable()
+    {
+        ZombieManager.zombies.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        ZombieManager.zombies.Remove(this);
+    }
+
     private void HandleMovement()
     {
-        if (survivalistGroup == null) return;
-
         Vector3 moveDir = (survivalistGroup.transform.position - transform.position).normalized;
         float moveDistance = moveSpeed * Time.deltaTime;
         transform.position += moveDistance * moveDir;
@@ -51,5 +53,15 @@ public class Zombie : MonoBehaviour
     public void SetTarget(Survivalist target)
     {
         survivalistGroup = target;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHP -= damage;
+
+        if (currentHP <= 0)
+        {
+            ObjectPoolManager.ReturnObjectToPool(gameObject);
+        }
     }
 }

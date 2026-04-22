@@ -1,7 +1,6 @@
 using Unity.Burst;
 using UnityEngine;
 
-[BurstCompile]
 public class ZombieSpawner : MonoBehaviour
 {
     [SerializeField]

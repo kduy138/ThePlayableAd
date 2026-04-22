@@ -1,14 +1,34 @@
+using System;
 using UnityEngine;
 
 public class ProjectileBehavior : MonoBehaviour
 {
+    [Header("Settings")]
     private float projectileSpeed = 30f;
+    private float projectileDamage = 100f;
     private float projectileLifeTimer;
     private float projectileLifeTimerMax = 3f;
+    [SerializeField]
+    private LayerMask zombieLayer;
 
     private void Update()
     {
-        ProjectileMovement();
+        float moveDistance = projectileSpeed * Time.deltaTime;
+
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, moveDistance, zombieLayer))
+        {
+            if (hit.collider.TryGetComponent(out Zombie zombie))
+            {
+                zombie.TakeDamage(projectileDamage);
+            }
+
+            ObjectPoolManager.ReturnObjectToPool(gameObject);
+            return;
+        }
+
+        transform.position += transform.forward * moveDistance;
 
         projectileLifeTimer += Time.deltaTime;
         if (projectileLifeTimer > projectileLifeTimerMax)
@@ -16,16 +36,5 @@ public class ProjectileBehavior : MonoBehaviour
             projectileLifeTimer = 0f;
             ObjectPoolManager.ReturnObjectToPool(transform.gameObject);
         }
-    }
-
-    private void ProjectileMovement()
-    {
-        Vector2 moveVector = new Vector2(0f, 0f);
-
-        moveVector.y = 1f;
-        Vector3 moveDir = new Vector3(0f, 0f, moveVector.y);
-
-        float moveDistance = projectileSpeed * Time.deltaTime;
-        transform.position += moveDistance * moveDir;
     }
 }
