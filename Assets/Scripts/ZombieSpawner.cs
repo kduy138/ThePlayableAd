@@ -7,7 +7,7 @@ public class ZombieSpawner : MonoBehaviour
     private Transform zombiePrefab;
 
     private float spawnTimer;
-    private float spawnTimerMax = 1.5f;
+    private float spawnTimerMax = 1f;
 
     private void Update()
     {

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5041919873094985465}
   - component: {fileID: 7672304614141188291}
-  - component: {fileID: 4978784524054376379}
   m_Layer: 0
   m_Name: Bullet_Projectile
   m_TagString: Untagged
@@ -49,29 +48,6 @@ MonoBehaviour:
   zombieLayer:
     serializedVersion: 2
     m_Bits: 8
---- !u!136 &4978784524054376379
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4497286969273766488}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.09
-  m_Height: 0.4
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4593980724644642835
 GameObject:
   m_ObjectHideFlags: 0

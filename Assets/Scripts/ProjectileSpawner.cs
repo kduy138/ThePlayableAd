@@ -8,7 +8,7 @@ public class ProjectileSpawner : MonoBehaviour
     private Transform projectilePrefab;
 
     private float spawnTimer;
-    private float spawnTimerMax = 0.8f;
+    private float spawnTimerMax = 0.3f;
 
     private void Update()
     {

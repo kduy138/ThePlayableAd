@@ -25,6 +25,7 @@ public class ProjectileBehavior : MonoBehaviour
             }
 
             ObjectPoolManager.ReturnObjectToPool(gameObject);
+            projectileLifeTimer = 0f;
             return;
         }
 

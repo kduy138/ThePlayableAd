@@ -42,7 +42,9 @@ public class Zombie : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector3 moveDir = (survivalistGroup.transform.position - transform.position).normalized;
+        if (transform.position.z <= survivalistGroup.transform.position.z) return;
+
+        Vector3 moveDir = Vector3.back;
         float moveDistance = moveSpeed * Time.deltaTime;
         transform.position += moveDistance * moveDir;
 
