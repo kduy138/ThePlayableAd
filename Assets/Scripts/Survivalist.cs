@@ -5,6 +5,8 @@ public class Survivalist : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 10f;
     private bool isMoving = false;
+    private int maxNumberOfSurvivalists = 50;
+    private int currentNumberOfSurvivalists = 1;
 
     private void Update()
     {

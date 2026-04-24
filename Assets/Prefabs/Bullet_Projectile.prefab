@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5eee674f040224439d802ca052b4182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileBehavior
-  zombieLayer:
+  damagableLayer:
     serializedVersion: 2
     m_Bits: 8
 --- !u!1 &4593980724644642835

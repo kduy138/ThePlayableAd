@@ -6,7 +6,7 @@ public class ObjectPoolManager : MonoBehaviour
 {
     public enum PoolType
     {
-        None, Zombies, Bullets
+        None, Zombies, Bullets, SurvivalistBanner
     }
 
     public static List<PoolObjectInfo> objectPools = new List<PoolObjectInfo>();
@@ -33,14 +33,6 @@ public class ObjectPoolManager : MonoBehaviour
 
         GameObject spawnableObj = null;
         spawnableObj = pool.inactiveObjects.FirstOrDefault();
-        //foreach (GameObject obj in pool.inactiveObjects)
-        //{
-        //    if (obj != null)
-        //    {
-        //        spawnableObj = obj;
-        //        break;
-        //    }
-        //}
 
         if (spawnableObj == null)
         {

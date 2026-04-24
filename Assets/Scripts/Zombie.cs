@@ -1,7 +1,7 @@
 using Unity.Burst;
 using UnityEngine;
 
-public class Zombie : MonoBehaviour
+public class Zombie : MonoBehaviour, IDamagable
 {
     [Header("References")]
     private Survivalist survivalistGroup;

@@ -1,20 +1,22 @@
 using Unity.Burst;
 using UnityEngine;
 
-public class ZombieSpawner : MonoBehaviour
+public class ZombieSpawner : BaseSpawner
 {
+    [Header("References")]
     [SerializeField]
     private Transform zombiePrefab;
 
+    [Header("Settings")]
     private float spawnTimer;
-    private float spawnTimerMax = 1f;
+    private float spawnTimerMax = 1.5f;
 
     private void Update()
     {
-        SpawnZombie();
+        SpawnObject();
     }
 
-    private void SpawnZombie()
+    public override void SpawnObject()
     {
         spawnTimer += Time.deltaTime;
         if (spawnTimer > spawnTimerMax)

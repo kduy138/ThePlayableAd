@@ -9,7 +9,7 @@ public class ProjectileBehavior : MonoBehaviour
     private float projectileLifeTimer;
     private float projectileLifeTimerMax = 3f;
     [SerializeField]
-    private LayerMask zombieLayer;
+    private LayerMask damagableLayer;
 
     private void Update()
     {
@@ -17,11 +17,11 @@ public class ProjectileBehavior : MonoBehaviour
 
         Ray ray = new Ray(transform.position, transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, moveDistance, zombieLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, moveDistance, damagableLayer))
         {
-            if (hit.collider.TryGetComponent(out Zombie zombie))
+            if (hit.collider.TryGetComponent(out IDamagable damagable))
             {
-                zombie.TakeDamage(projectileDamage);
+                damagable.TakeDamage(projectileDamage);
             }
 
             ObjectPoolManager.ReturnObjectToPool(gameObject);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ProjectileSpawner : MonoBehaviour
+public class ProjectileSpawner : BaseSpawner
 {
     [SerializeField]
     private Transform spawnPoint;
@@ -12,10 +12,10 @@ public class ProjectileSpawner : MonoBehaviour
 
     private void Update()
     {
-        SpawnProjectile();
+        SpawnObject();
     }
 
-    private void SpawnProjectile()
+    public override void SpawnObject()
     {
         spawnTimer += Time.deltaTime;
         if (spawnTimer > spawnTimerMax )
