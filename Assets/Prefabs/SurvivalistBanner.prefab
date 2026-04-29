@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7011861439261346990}
   - component: {fileID: 2167974262083983647}
   - component: {fileID: 5005005513383454211}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: SurvivalistAmountTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 6470314669500831120}
   - component: {fileID: 2486469063337709998}
   - component: {fileID: 8472777004047971148}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: SurvivalistBanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 1327336602254415443}
   - component: {fileID: 4326164577287748227}
   - component: {fileID: 6527126285780916937}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: SurvivalistBannerVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

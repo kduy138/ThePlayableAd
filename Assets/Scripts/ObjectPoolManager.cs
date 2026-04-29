@@ -15,6 +15,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     private static GameObject _zombiesEmpty;
     private static GameObject _bulletsEmpty;
+    private static GameObject _bannersEmpty;
 
     private void Awake()
     {
@@ -80,6 +81,9 @@ public class ObjectPoolManager : MonoBehaviour
 
         _bulletsEmpty = new GameObject("Bullets");
         _bulletsEmpty.transform.SetParent(_objectPoolEmptyHolder.transform);
+
+        _bannersEmpty = new GameObject("Banners");
+        _bannersEmpty.transform.SetParent(_objectPoolEmptyHolder.transform);
     }
     
     private static GameObject SetParentObject(PoolType type)
@@ -90,6 +94,8 @@ public class ObjectPoolManager : MonoBehaviour
                 return _zombiesEmpty;
             case PoolType.Bullets:
                 return _bulletsEmpty;
+            case PoolType.SurvivalistBanner:
+                return _bannersEmpty;
             case PoolType.None:
                 return null;
             default:

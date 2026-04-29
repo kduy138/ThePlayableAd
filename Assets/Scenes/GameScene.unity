@@ -1534,6 +1534,7 @@ GameObject:
   - component: {fileID: 1128251489}
   - component: {fileID: 1128251490}
   - component: {fileID: 1128251491}
+  - component: {fileID: 1128251492}
   m_Layer: 0
   m_Name: SurvivalistGroup
   m_TagString: Untagged
@@ -1570,6 +1571,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Survivalist
   moveSpeed: 10
+  survivalistGroup: {fileID: 1128251489}
+  survivalistPrefab: {fileID: 7115028491696318875, guid: e7e2bb03b9fb2f24db0ca230811f39ae, type: 3}
 --- !u!65 &1128251491
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1589,8 +1592,35 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 80, y: 5, z: 5}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 3, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &1128251492
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128251488}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 124
+  m_CollisionDetection: 0
 --- !u!1001 &1173657304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2614,7 +2644,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7115028491696318875, guid: e7e2bb03b9fb2f24db0ca230811f39ae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.83512
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7115028491696318875, guid: e7e2bb03b9fb2f24db0ca230811f39ae, type: 3}
       propertyPath: m_LocalPosition.y

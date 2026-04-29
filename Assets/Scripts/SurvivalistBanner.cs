@@ -12,17 +12,17 @@ public class SurvivalistBanner : MonoBehaviour, IDamagable
     private float bannerMaxHP = 1000f;
     private float bannerCurrentHP;
     private int survivalistAmount;
-    private int minAmount = -10;
+    private int minAmount = 0;
     private int maxAmount = 5;
 
     private void Awake()
     {
         bannerCurrentHP = bannerMaxHP;
-        survivalistAmount = RandomizeSurvivalistAmount();
     }
 
     private void Start()
     {
+        survivalistAmount = RandomizeSurvivalistAmount();
         survivalistBannerTxt.text = survivalistAmount >= 0 ? "+" + survivalistAmount.ToString() : survivalistAmount.ToString();
     }
 
@@ -45,15 +45,33 @@ public class SurvivalistBanner : MonoBehaviour, IDamagable
 
         if (bannerCurrentHP <= 0)
         {
-            ObjectPoolManager.ReturnObjectToPool(gameObject);
+            ReturnSelfToPool();
             bannerCurrentHP = bannerMaxHP;
         }
     }
 
+    public void ReturnSelfToPool()
+    {
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
+    }
+
     private int RandomizeSurvivalistAmount()
     {
-        int randomAmount = Random.Range(minAmount, maxAmount);
+        int randomAmount = Random.Range(minAmount, maxAmount + 1);
 
         return randomAmount;
+    }
+
+    public int GetSurvivalistAmount()
+    {
+        return survivalistAmount;
+    }
+
+    public void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.TryGetComponent(out Survivalist survivalist))
+        {
+            Debug.Log("Banner Collides!");
+        }
     }
 }
