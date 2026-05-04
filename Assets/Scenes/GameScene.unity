@@ -1571,8 +1571,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Survivalist
   moveSpeed: 10
+  currentNumberOfSurvivalists: 1
   survivalistGroup: {fileID: 1128251489}
   survivalistPrefab: {fileID: 7115028491696318875, guid: e7e2bb03b9fb2f24db0ca230811f39ae, type: 3}
+  firstSurvivalist: {fileID: 1279291251}
 --- !u!65 &1128251491
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class Survivalist : MonoBehaviour
     private float moveSpeed = 10f;
     private bool isMoving = false;
     private int maxNumberOfSurvivalists = 50;
+    [SerializeField]
     private int currentNumberOfSurvivalists = 1;
     private float spacing = 1.5f;
 
@@ -18,10 +19,13 @@ public class Survivalist : MonoBehaviour
     private Transform survivalistPrefab;
     private List<Transform> survivalists = new List<Transform>();
     private BoxCollider boxCollider;
+    [SerializeField]
+    private Transform firstSurvivalist;
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
+        survivalists.Add(firstSurvivalist);
     }
 
     private void Update()
@@ -42,38 +46,66 @@ public class Survivalist : MonoBehaviour
         isMoving = moveDir != Vector3.zero;
     }
 
-    private void AddSurivalist(int amount)
+    private void AddOrRemoveSurivalist(int amount)
     {
-        if (amount <= 0) return;
+        if (amount == 0) return;
+
         if (currentNumberOfSurvivalists + amount > maxNumberOfSurvivalists)
         {
             Debug.Log("You've reached the max amount of survivalist! Cannot add more!");
         }
 
-        for (int i = 0; i < amount; i++)
+        UpdateSurvivalistGroupColliderSize(amount);
+
+        if (amount > 0)
         {
-            Transform survivalist = Instantiate(survivalistPrefab);
-            survivalists.Add(survivalist);
-            currentNumberOfSurvivalists++;
+            for (int i = 0; i < amount; i++)
+            {
+                Transform survivalist = Instantiate(survivalistPrefab, transform);
+                survivalists.Add(survivalist);
+                currentNumberOfSurvivalists++;
+            }
         }
+        else
+        {
+            amount = amount * -1;
+            for (int i = 0; i < amount; i++)
+            {
+                Destroy(survivalists[i].gameObject);
+                survivalists.Remove(survivalists[i]);
+                currentNumberOfSurvivalists--;
+            }
+
+            if (currentNumberOfSurvivalists <= 0)
+            {
+                // Player loses the game
+                Debug.Log("All survivalists are dead!");
+                Time.timeScale = 0f;
+            }
+        }
+
     }
 
     private void UpdateSurvivalistsFormation()
     {
         for (int i = 0; i < survivalists.Count; i++)
         {
-            Vector3 pos = GetFormationPos(i);
+            Vector3 pos = GetInFormationPosForObject(i);
             survivalists[i].position = Vector3.Lerp(survivalists[i].position, transform.position + pos, Time.deltaTime * moveSpeed);
-            survivalists[i].SetParent(transform);
         }
     }
 
-    private Vector3 GetFormationPos(int index)
+    private Vector3 GetInFormationPosForObject(int index)
     {
-        int row = index / 7;
-        int col = index % 7;
+        int maxRow = 7;
+        int maxCol = 7;
+        int row = index / maxRow;
+        int col = index % maxCol;
 
-        Vector3 offset = new Vector3((col - 1) * spacing, 0, -(row + 1) * spacing); 
+        int colCount = Mathf.Min(survivalists.Count, maxCol);
+        float centerOffset = (colCount - 1) * 0.5f;
+
+        Vector3 offset = new Vector3((col - centerOffset) * spacing, 0, -(row + 1) * spacing); 
 
         return offset;
     }
@@ -86,20 +118,33 @@ public class Survivalist : MonoBehaviour
             {
                 Debug.Log("Collided");
                 int survivalistAmount = banner.GetSurvivalistAmount();
-                AddSurivalist(survivalistAmount);
-                UpdateSurvivalistGroupColliderSize(survivalistAmount);
-                banner.ReturnSelfToPool();
+                AddOrRemoveSurivalist(survivalistAmount);
+                banner.DestroySelf();
             }
         }
     }
 
-    private void UpdateSurvivalistGroupColliderSize(int survivalistAmount)
+    private void UpdateSurvivalistGroupColliderSize(int amount)
     {
+        float maxColliderSizeX = 7 + 7 * spacing; // Because the maximum survivalist per row is 7
         if (boxCollider == null) return;
-        if (survivalistAmount <= 0) return;
+        if (amount == 0) return;
 
         Vector3 size = boxCollider.size;
-        size.x += survivalistAmount;
+
+        if (amount > 0)
+        {
+            size.x += amount + spacing;
+            if (size.x > maxColliderSizeX)
+            {
+                size.x = maxColliderSizeX;
+            }
+        }
+        else
+        {
+            size.x -= (amount * -1) + ((amount * -1) * spacing);
+        }
+        
         boxCollider.size = size;
     }
 

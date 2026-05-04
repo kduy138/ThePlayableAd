@@ -13,7 +13,7 @@ public class ZombieSpawner : BaseSpawner
 
     private void Update()
     {
-        SpawnObject();
+        //SpawnObject();
     }
 
     public override void SpawnObject()
