@@ -13,6 +13,8 @@ public class ProjectileBehavior : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
+
         float moveDistance = projectileSpeed * Time.deltaTime;
 
         Ray ray = new Ray(transform.position, transform.forward);

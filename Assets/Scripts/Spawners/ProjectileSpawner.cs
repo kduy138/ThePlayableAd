@@ -12,6 +12,7 @@ public class ProjectileSpawner : BaseSpawner
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
         SpawnObject();
     }
 

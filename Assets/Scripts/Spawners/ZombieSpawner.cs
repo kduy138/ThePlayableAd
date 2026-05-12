@@ -13,7 +13,8 @@ public class ZombieSpawner : BaseSpawner
 
     private void Update()
     {
-        //SpawnObject();
+        if (!GameManager.Instance.IsGamePlaying()) return;
+        SpawnObject();
     }
 
     public override void SpawnObject()

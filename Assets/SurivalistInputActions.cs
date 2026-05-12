@@ -100,6 +100,15 @@ public partial class @SurivalistInputActions: IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f0434adc-1421-43bc-a378-d896d6673efb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +221,28 @@ public partial class @SurivalistInputActions: IInputActionCollection2, IDisposab
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e91d6d63-0f40-4735-a152-7f5752e40cf3"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f5236f1-6e52-4d16-b888-ca0d1ec832e8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -221,6 +252,7 @@ public partial class @SurivalistInputActions: IInputActionCollection2, IDisposab
         // Survivalist
         m_Survivalist = asset.FindActionMap("Survivalist", throwIfNotFound: true);
         m_Survivalist_Move = m_Survivalist.FindAction("Move", throwIfNotFound: true);
+        m_Survivalist_Pause = m_Survivalist.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@SurivalistInputActions()
@@ -302,6 +334,7 @@ public partial class @SurivalistInputActions: IInputActionCollection2, IDisposab
     private readonly InputActionMap m_Survivalist;
     private List<ISurvivalistActions> m_SurvivalistActionsCallbackInterfaces = new List<ISurvivalistActions>();
     private readonly InputAction m_Survivalist_Move;
+    private readonly InputAction m_Survivalist_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Survivalist".
     /// </summary>
@@ -317,6 +350,10 @@ public partial class @SurivalistInputActions: IInputActionCollection2, IDisposab
         /// Provides access to the underlying input action "Survivalist/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_Survivalist_Move;
+        /// <summary>
+        /// Provides access to the underlying input action "Survivalist/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_Survivalist_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -346,6 +383,9 @@ public partial class @SurivalistInputActions: IInputActionCollection2, IDisposab
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         /// <summary>
@@ -360,6 +400,9 @@ public partial class @SurivalistInputActions: IInputActionCollection2, IDisposab
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         /// <summary>
@@ -407,5 +450,12 @@ public partial class @SurivalistInputActions: IInputActionCollection2, IDisposab
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
     }
 }

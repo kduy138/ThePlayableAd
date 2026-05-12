@@ -26,6 +26,7 @@ public class Zombie : MonoBehaviour, IDamagable
 
     public void CustomUpdate()
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
         if (survivalistGroup == null) return;
         HandleMovement();
     }

@@ -6,10 +6,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public event EventHandler OnStateChanged;
+    public event EventHandler OnGamePaused;
+    public event EventHandler OnGameUnpaused;
 
     private enum State
     {
-        WaitingToStart,
         CountDownToStart,
         GamePlaying,
         GameOver
@@ -21,32 +22,34 @@ public class GameManager : MonoBehaviour
     private State state;
 
     [Header("Settings")]
-    private float waitingToStartTimer = 1f;
+    private float countDownToStartTimerMax = 3f;
     private float countDownToStartTimer = 3f;
     private bool isGamePaused = false;
 
     private void Awake()
     {
         Instance = this;
-        state = State.WaitingToStart;
-        RunGameTime();
+        state = State.CountDownToStart;
+    }
+
+    private void Start()
+    {
+        GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
     }
 
     private void Update()
     {
+        Debug.Log(state);
         switch(state)
         {
-            case State.WaitingToStart:
-                waitingToStartTimer -= Time.deltaTime;
+            case State.CountDownToStart:
+                countDownToStartTimer -= Time.deltaTime;
 
-                if (waitingToStartTimer <= 0f)
+                if (countDownToStartTimer <= 0f)
                 {
                     state = State.GamePlaying;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
-                break;
-            case State.CountDownToStart:
-
                 break;
 
             case State.GamePlaying:
@@ -57,8 +60,29 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case State.GameOver:
-                StopGameTime();
                 break;
+        }
+    }
+
+    private void GameInput_OnPauseAction(object sender, EventArgs e)
+    {
+        if (state != State.GamePlaying) return;
+        ToggleGamePause();
+    }
+
+    public void ToggleGamePause()
+    {
+        isGamePaused = !isGamePaused;
+
+        if (isGamePaused)
+        {
+            StopGameTime();
+            OnGamePaused?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            RunGameTime();
+            OnGameUnpaused?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -79,11 +103,16 @@ public class GameManager : MonoBehaviour
 
     public bool IsGamePlaying()
     {
-        return state == State.WaitingToStart;
+        return state == State.GamePlaying;
     }
 
     public bool isCountingToStart()
     {
         return state == State.CountDownToStart;
+    }
+
+    public float GetCountDownToStartTimer()
+    {
+        return countDownToStartTimer;
     }
 }

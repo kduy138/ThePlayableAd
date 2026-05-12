@@ -1,19 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverUI : MonoBehaviour
+public class GamePausedUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField]
-    private Button tryAgainBtn;
+    private Button resumeBtn;
     [SerializeField]
     private Button backToMenuBtn;
 
     private void Awake()
     {
-        tryAgainBtn.onClick.AddListener(() =>
+        resumeBtn.onClick.AddListener(() =>
         {
-            Loader.Load(Loader.Scene.GameScene);
+            GameManager.Instance.ToggleGamePause();
         });
 
         backToMenuBtn.onClick.AddListener(() =>
@@ -24,20 +24,19 @@ public class GameOverUI : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
+        GameManager.Instance.OnGamePaused += GameManager_OnGamePaused;
+        GameManager.Instance.OnGameUnpaused += GameManager_OnGameUnpaused;
         Hide();
     }
 
-    private void GameManager_OnStateChanged(object sender, System.EventArgs e)
+    private void GameManager_OnGameUnpaused(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGameOver())
-        {
-            Show();
-        }
-        else
-        {
-            Hide();
-        }
+        Hide();
+    }
+
+    private void GameManager_OnGamePaused(object sender, System.EventArgs e)
+    {
+        Show();
     }
 
     private void Show()

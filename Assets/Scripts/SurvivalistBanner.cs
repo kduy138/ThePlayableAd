@@ -26,6 +26,7 @@ public class SurvivalistBanner : MonoBehaviour, IDamagable
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
         HandleMovement();
         survivalistBannerTxt.text = survivalistAmount >= 0 ? "+" + survivalistAmount.ToString() : survivalistAmount.ToString();
 

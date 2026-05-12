@@ -33,6 +33,7 @@ public class Survivalist : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
         if (survivalists.Count <= 0) return;
 
         HandleMovement();
