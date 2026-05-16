@@ -65,6 +65,9 @@ public class Zombie : MonoBehaviour, IDamagable
         if (currentHP <= 0)
         {
             ObjectPoolManager.ReturnObjectToPool(gameObject);
+
+            int zombieKilled = 1;
+            GameManager.Instance.SetTotalZombieKilled(zombieKilled);
         }
     }
 }

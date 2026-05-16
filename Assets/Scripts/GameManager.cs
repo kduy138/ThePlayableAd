@@ -16,13 +16,16 @@ public class GameManager : MonoBehaviour
         GameOver
     }
 
+    [Header("Stats")]
+    private int totalZombieKilled = 0;
+    private float gamePlayedTime;
+
     [Header("References")]
     [SerializeField]
     private Survivalist survivalistGroup;
     private State state;
 
     [Header("Settings")]
-    private float countDownToStartTimerMax = 3f;
     private float countDownToStartTimer = 3f;
     private bool isGamePaused = false;
 
@@ -53,6 +56,8 @@ public class GameManager : MonoBehaviour
                 break;
 
             case State.GamePlaying:
+                gamePlayedTime += Time.deltaTime;
+
                 if (survivalistGroup.AllSurvivalistsAreDead())
                 {
                     state = State.GameOver;
@@ -114,5 +119,20 @@ public class GameManager : MonoBehaviour
     public float GetCountDownToStartTimer()
     {
         return countDownToStartTimer;
+    }
+
+    public void SetTotalZombieKilled(int count)
+    {
+        totalZombieKilled += count;
+    }
+
+    public int GetTotalZombieKilled()
+    {
+        return totalZombieKilled;
+    }
+
+    public float GetGamePlayedTime()
+    {
+        return gamePlayedTime;
     }
 }
