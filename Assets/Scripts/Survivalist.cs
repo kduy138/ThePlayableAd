@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Survivalist : MonoBehaviour
+public class Survivalist : MonoBehaviour, IDamagable
 {
     [Header("Settings")]
     private float moveSpeed = 10f;
     private bool isMoving = false;
     private int maxNumberOfSurvivalists = 49; // 7 survivalists per row and i want 7 rows max => 49
     private float spacing = 1.5f;
+    private float takeDamageTimer = 1f;
 
     [Header("References")]
     [SerializeField]
@@ -19,9 +20,10 @@ public class Survivalist : MonoBehaviour
     private BoxCollider boxCollider;
     [SerializeField]
     private Transform firstSurvivalist;
+    [SerializeField]
+    private LayerMask damagableLayerMask;
 
     [Header("Flags")]
-    [SerializeField]
     private bool allSurvivalistsAreDead;
 
     private void Awake()
@@ -36,7 +38,6 @@ public class Survivalist : MonoBehaviour
         if (!GameManager.Instance.IsGamePlaying()) return;
         if (survivalists.Count <= 0) return;
 
-        HandleMovement();
         UpdateSurvivalistsFormation();
         UpdateSurvivalistGroupColliderSize();
 
@@ -46,16 +47,30 @@ public class Survivalist : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (!GameManager.Instance.IsGamePlaying()) return;
+
+        HandleMovement();
+    }
+
     private void HandleMovement()
     {
         Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, 0f);
 
-        float moveDistance = moveSpeed * Time.deltaTime;
+        float moveDistance = moveSpeed * Time.fixedDeltaTime;
 
-        transform.position += moveDistance * moveDir;
-        isMoving = moveDir != Vector3.zero;
+       BoxCollider col = GetComponent<BoxCollider>();
+        bool canMove = !Physics.BoxCast(transform.position, col.size / 2, moveDir, Quaternion.identity, moveDistance, damagableLayerMask);
+
+        if (canMove)
+        {
+            transform.position += moveDir * moveDistance;
+        }
+
+        isMoving = canMove && moveDir != Vector3.zero;
     }
 
     private void AddOrRemoveSurivalist(int amount)
@@ -168,5 +183,11 @@ public class Survivalist : MonoBehaviour
     public bool AllSurvivalistsAreDead()
     {
         return allSurvivalistsAreDead;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        survivalists.Remove(survivalists[survivalists.Count - 1]);
+        Debug.Log("Player is taking damage!");
     }
 }

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,10 @@ public class GameOverUI : MonoBehaviour
     private Button tryAgainBtn;
     [SerializeField]
     private Button backToMenuBtn;
+    [SerializeField]
+    private TextMeshProUGUI timeSurvivedTxt;
+    [SerializeField]
+    private TextMeshProUGUI totalZombieKilledTxt;
 
     private void Awake()
     {
@@ -26,6 +31,25 @@ public class GameOverUI : MonoBehaviour
     {
         GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
         Hide();
+    }
+
+    private void OnEnable()
+    {
+        SetUI();
+    }
+
+    private void SetUI()
+    {
+        Debug.Log(GameManager.Instance.GetTotalZombieKilled());
+        totalZombieKilledTxt.text = "Total zombie killed: " + GameManager.Instance.GetTotalZombieKilled().ToString();
+
+        float minute = GameManager.Instance.GetMinutePlayed();
+        float second = GameManager.Instance.GetSecondPlayed();
+
+        string secondTxt = second < 10 ? "0" + second.ToString() : second.ToString();
+        string minTxt = minute < 10 ? "0" + minute : minute.ToString();
+
+        timeSurvivedTxt.text = "Time survived: " + minTxt + ":" + secondTxt;
     }
 
     private void GameManager_OnStateChanged(object sender, System.EventArgs e)

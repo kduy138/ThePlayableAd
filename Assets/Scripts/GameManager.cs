@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(state);
         switch(state)
         {
             case State.CountDownToStart:
@@ -133,6 +132,16 @@ public class GameManager : MonoBehaviour
 
     public float GetGamePlayedTime()
     {
-        return gamePlayedTime;
+        return Mathf.Ceil(gamePlayedTime);
+    }
+
+    public float GetMinutePlayed()
+    {
+        return GetGamePlayedTime() < 60 ? 0 : Mathf.Floor(GetGamePlayedTime() / 60);
+    }
+
+    public float GetSecondPlayed()
+    {
+        return GetGamePlayedTime() - (60 * GetMinutePlayed());
     }
 }

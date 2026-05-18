@@ -22,18 +22,15 @@ public class GamePlayingUI : MonoBehaviour
 
     private void SetUI()
     {
-        string second = "00";
-
-        if (int.Parse(second) >= 60) second = "00";
-
         zombieKilledCountTxt.text = GameManager.Instance.GetTotalZombieKilled().ToString();
 
-        float totalSecondPlayed =  Mathf.Ceil(GameManager.Instance.GetGamePlayedTime());
-        float minute = totalSecondPlayed < 60 ? 0 : Mathf.Ceil(totalSecondPlayed / 60);
-        second = totalSecondPlayed - (minute * 2) < 10 ? "0" + (totalSecondPlayed - (minute * 2)).ToString() : (totalSecondPlayed - (minute * 2)).ToString();
+        float minute = GameManager.Instance.GetMinutePlayed();
+        float second = GameManager.Instance.GetSecondPlayed();
+
+        string secondTxt = second < 10 ? "0" + second.ToString() : second.ToString();
         string minTxt = minute < 10 ? "0" + minute : minute.ToString();
 
-        gamePlayedTimeTxt.text = minTxt + ":" + second;
+        gamePlayedTimeTxt.text = minTxt + ":" + secondTxt;
     }
 
     private void GameManager_OnStateChanged(object sender, System.EventArgs e)
