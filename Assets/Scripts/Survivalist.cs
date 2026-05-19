@@ -8,7 +8,6 @@ public class Survivalist : MonoBehaviour, IDamagable
     private bool isMoving = false;
     private int maxNumberOfSurvivalists = 49; // 7 survivalists per row and i want 7 rows max => 49
     private float spacing = 1.5f;
-    private float takeDamageTimer = 1f;
 
     [Header("References")]
     [SerializeField]
@@ -187,7 +186,9 @@ public class Survivalist : MonoBehaviour, IDamagable
 
     public void TakeDamage(float damage)
     {
-        survivalists.Remove(survivalists[survivalists.Count - 1]);
-        Debug.Log("Player is taking damage!");
+        if (survivalists.Count <= 0) return;
+
+        int survivalistKilled = -1;
+        AddOrRemoveSurivalist(survivalistKilled);
     }
 }
