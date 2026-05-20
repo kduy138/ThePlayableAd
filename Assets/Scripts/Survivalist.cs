@@ -8,6 +8,8 @@ public class Survivalist : MonoBehaviour, IDamagable
     private bool isMoving = false;
     private int maxNumberOfSurvivalists = 49; // 7 survivalists per row and i want 7 rows max => 49
     private float spacing = 1.5f;
+    private float takeDamageTimer = 0.5f;
+    private float lastTakenDamageTime = -1f;
 
     [Header("References")]
     [SerializeField]
@@ -106,8 +108,9 @@ public class Survivalist : MonoBehaviour, IDamagable
             {
                 for (int i = 0; i < amount; i++)
                 {
-                    Destroy(survivalists[i].gameObject);
-                    survivalists.Remove(survivalists[i]);
+                    int removeIdx = survivalists.Count - 1;
+                    Destroy(survivalists[removeIdx].gameObject);
+                    survivalists.RemoveAt(removeIdx);
                 }
             }
         }
@@ -188,7 +191,12 @@ public class Survivalist : MonoBehaviour, IDamagable
     {
         if (survivalists.Count <= 0) return;
 
-        int survivalistKilled = -1;
-        AddOrRemoveSurivalist(survivalistKilled);
+        if (Time.time - lastTakenDamageTime > takeDamageTimer)
+        {
+            return;
+        }
+        lastTakenDamageTime = Time.time;
+        int survivalistKilledAmount = -1;
+        AddOrRemoveSurivalist(survivalistKilledAmount);
     }
 }
